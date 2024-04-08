@@ -27,7 +27,7 @@ function displayQuestion({ questions, questionIndex, quizDisplayContainer }) {
     .map(
       (option, index) => `
     <label>
-        <input type="radio" name="question${index}" value="${index}"/>
+        <input type="radio" name="option" value="${index}"/>
         ${option}
     </label>
   `,
@@ -48,6 +48,7 @@ function showResults({
 }) {
   const answers = quizDisplayContainer.querySelectorAll(".options");
   let score = 0;
+  let quizData = loadQuizData();
 
   questions.forEach((question, index) => {
     const answerContainer = answers[index];
@@ -59,7 +60,7 @@ function showResults({
     }
   });
 
-  resultDisplayContainer.innerHTML = `Your Score is ${score} out of ${quizData.questions.length}`;
+  resultDisplayContainer.innerHTML = `Your Score is ${score} out of ${quizData.quiz.questions_count}`;
 }
 
 (async function () {
