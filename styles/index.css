@@ -1,0 +1,16 @@
+/** @format */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.quiz-container {
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+.quiz-question {
+  margin-bottom: 20px;
+}
