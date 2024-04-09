@@ -1,11 +1,17 @@
 /** @format */
 ("use strict");
 
+let answers = []
+let currentQuestionIndex = 0;
+
 async function loadQuizData() {
   fetch("../data/data.json")
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
+      data.quiz.questions.forEach(() => {
+        answers.push("-1")
+      })
       return data;
     })
     .catch((err) => console.error(`Error loading the quiz data: ${err}`));
@@ -27,7 +33,7 @@ function displayQuestion({ questions, questionIndex, quizDisplayContainer }) {
     .map(
       (option, index) => `
     <label>
-        <input type="radio" name="option" value="${index}"/>
+        <input id="option${index}" type="radio" name="option" value="${index}"/>
         ${option}
     </label>
   `,
@@ -40,6 +46,22 @@ function displayQuestion({ questions, questionIndex, quizDisplayContainer }) {
   }</div>
         <div class="options">${options}</div>
     `;
+
+    document.getElementById("option1").addEventListener("click",() =>{
+      saveAnswer()
+    })
+  
+    document.getElementById("option2").addEventListener("click",() =>{
+      saveAnswer()
+    })
+  
+    document.getElementById("option3").addEventListener("click",() =>{
+      saveAnswer()
+    })
+  
+    document.getElementById("option0").addEventListener("click",() =>{
+      saveAnswer()
+    })
 }
 
 // TODO: Fix Show Results
@@ -48,25 +70,28 @@ function showResults({
   quizDisplayContainer,
   resultDisplayContainer,
 }) {
-  const answers = quizDisplayContainer.querySelectorAll(".options");
   let score = 0;
   let quizData = loadQuizData();
 
   questions.forEach((question, index) => {
-    const answerContainer = answers[index];
-    const selector = `input[name=question${index}]:checked`;
-    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-
-    if (Number(userAnswer) === question.answer_index) {
+    const userAnswer = answers[index]
+    if (userAnswer === question.answer_index) {
       score++;
     }
   });
 
-  resultDisplayContainer.innerHTML = `Your Score is ${score} out of ${quizData.quiz.questions_count}`;
+  resultDisplayContainer.innerHTML = `Your Score is ${score} out of ${questions.length}`;
 }
 
 function changeBtnState({ btnRef, isDisabled }) {
   btnRef.disabled = isDisabled;
+}
+
+function saveAnswer(){
+  let answer = document.querySelector("input[name='option']:checked");
+  if(answer && parseInt(answer.value) >= 0){
+    answers[currentQuestionIndex] =  answer.value;
+  }
 }
 
 function isFirstQuestion({ currentQuestionIndex, prevBtn, nextBtn }) {
@@ -107,7 +132,6 @@ function isLastQuestion({ currentQuestionIndex, length, prevBtn, nextBtn }) {
   const questions = data.quiz.questions;
   const quizLength = data.quiz.questions_count;
 
-  let currentQuestionIndex = 0;
 
   isFirstQuestion({
     currentQuestionIndex: currentQuestionIndex,
@@ -116,6 +140,8 @@ function isLastQuestion({ currentQuestionIndex, length, prevBtn, nextBtn }) {
   });
 
   prevBtn.addEventListener("click", () => {
+
+    
     changeBtnState({ btnRef: nextBtn, isDisabled: false });
 
     if (currentQuestionIndex > 1) {
@@ -139,10 +165,20 @@ function isLastQuestion({ currentQuestionIndex, length, prevBtn, nextBtn }) {
         quizDisplayContainer: quizContainer,
       });
     }
+    
+    answer = document.querySelector(`input[id='option${answers[currentQuestionIndex]}']`);
+    if(answer && parseInt(answer.value) >= 0){
+      document.querySelector(`input[id='option${answers[currentQuestionIndex]}']`).checked = true;
+
+    }
+
   });
 
   nextBtn.addEventListener("click", () => {
+
+   
     changeBtnState({ btnRef: prevBtn, isDisabled: false });
+
 
     if (currentQuestionIndex < quizLength - 2) {
       currentQuestionIndex++;
@@ -166,6 +202,14 @@ function isLastQuestion({ currentQuestionIndex, length, prevBtn, nextBtn }) {
         quizDisplayContainer: quizContainer,
       });
     }
+
+    
+
+    answer = document.querySelector(`input[id='option${answers[currentQuestionIndex]}']`);
+      if(answer && parseInt(answer.value) >= 0){
+        document.querySelector(`input[id='option${answers[currentQuestionIndex]}']`).checked = true;
+
+      }
   });
 
   submitBtn.addEventListener("click", () => {
@@ -176,9 +220,18 @@ function isLastQuestion({ currentQuestionIndex, length, prevBtn, nextBtn }) {
     });
   });
 
+  
   displayQuestion({
     questions: questions,
     questionIndex: currentQuestionIndex,
     quizDisplayContainer: quizContainer,
   });
+
+  
+
+
+
 })();
+
+
+
