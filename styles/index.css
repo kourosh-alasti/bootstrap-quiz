@@ -8,8 +8,9 @@
 
 body {
   background-color: #b1c6e4;
-  background-image: linear-gradient(315deg,#b1c6e4 0%, #ffffff);
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  background-image: linear-gradient(315deg, #b1c6e4 0%, #ffffff);
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,8 +20,8 @@ body {
 
 .quiz-container {
   background-color: #ffffff;
-  box-shadow:0 0 10px 2px #9b9b9b;
-  display:block;
+  box-shadow: 0 0 10px 2px #9b9b9b;
+  display: block;
   margin: 20px center;
   width: fit-content;
   border-radius: 10px;
@@ -34,3 +35,57 @@ body {
 .results {
   margin: auto;
 }
+
+/* TAILWINDCSS-esque CLASSES */
+
+/* Spacing Classes */
+
+.mt-6 {
+  margin-top: calc(6 * 4px);
+}
+
+/* Text Classes */
+
+.text-lg {
+  font-size: 1.75rem;
+}
+
+.text-muted-foreground {
+  color: rgb(96, 96, 96);
+}
+
+.text-sm {
+  font-size: 1.2rem;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.font-bolder {
+  font-weight: bolder;
+}
+
+.tracking-wide {
+  letter-spacing: 0.25rem;
+}
+
+/* Display Classes */
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-1 {
+  gap: 4px;
+}
+
+/* END TAILWINDCSS-esque CLASSES */
